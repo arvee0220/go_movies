@@ -17,9 +17,11 @@ func DeleteMovie(w http.ResponseWriter, r *http.Request) {
 			structs.Movies = append(structs.Movies[:i], structs.Movies[i+1:]...)
 			break
 		}
+
+		http.Error(w, "Movie not found", http.StatusNotFound)
 	}
-	err := json.NewEncoder(w).Encode(structs.Movies)
-	if err != nil {
+
+	if err := json.NewEncoder(w).Encode(structs.Movies); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}

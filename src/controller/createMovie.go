@@ -12,8 +12,7 @@ func CreateMovie(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var movie structs.Movie
 
-	err := json.NewDecoder(r.Body).Decode(&movie)
-	if err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&movie); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -21,8 +20,7 @@ func CreateMovie(w http.ResponseWriter, r *http.Request) {
 	movie.ID = strconv.Itoa(rand.Intn(100000000))
 	structs.Movies = append(structs.Movies, movie)
 
-	err = json.NewEncoder(w).Encode(movie)
-	if err != nil {
+	if err := json.NewEncoder(w).Encode(movie); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
